@@ -9,6 +9,8 @@ let taskInput = document.querySelector('#new_task') ;
 
 form.addEventListener('submit' , addTask) ; 
 taskList.addEventListener('click' , removeTask) ; 
+clearBtn.addEventListener('click', clearTask) 
+ 
 
 
 function addTask(e)
@@ -46,6 +48,8 @@ function removeTask(e)
     {
         if(confirm("Are you Sure?"))
         {
+            let ele = e.target.parentElement ;
+            ele.remove() ; 
             console.log(e.target.parentElement) ; 
         }
     }
@@ -53,3 +57,13 @@ function removeTask(e)
 
 
 }
+
+function clearTask(e)
+{
+    while(taskList.firstChild)
+    {
+        taskList.removeChild(taskList.firstChild) ; 
+    }
+}
+
+
