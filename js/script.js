@@ -6,7 +6,7 @@ let taskInput = document.querySelector('#new_task') ;
 
 
 
-
+filter.addEventListener('keyup' , filterTask)  ; 
 form.addEventListener('submit' , addTask) ; 
 taskList.addEventListener('click' , removeTask) ; 
 clearBtn.addEventListener('click', clearTask) 
@@ -15,7 +15,7 @@ clearBtn.addEventListener('click', clearTask)
 
 function addTask(e)
 {
-    console.log('hi') ; 
+    //console.log('hi') ; 
     if(taskInput.value === '')
     {
         alert('Add a Task') ; 
@@ -32,6 +32,11 @@ function addTask(e)
         
     
         taskList.appendChild(li) ; 
+
+        storeTaskInLocalStorage(taskInput.value) ; 
+
+
+
         taskInput.value = '' ; 
 
     }
@@ -42,8 +47,6 @@ function addTask(e)
 
 function removeTask(e)
 {
-
-
     if(e.target.hasAttribute("href"))
     {
         if(confirm("Are you Sure?"))
@@ -53,9 +56,6 @@ function removeTask(e)
             console.log(e.target.parentElement) ; 
         }
     }
-
-
-
 }
 
 function clearTask(e)
@@ -66,4 +66,36 @@ function clearTask(e)
     }
 }
 
+function filterTask(e)
+{
+    let text = e.target.value.toLowerCase() ; 
+
+    document.querySelectorAll('li').forEach(task => 
+        {
+            let item = task.firstChild.textContent ; 
+            if(item.toLowerCase().indexOf(text) != -1)
+            {
+                task.style.display = 'block' ; 
+            }
+            else 
+            {
+                task.style.display = 'none' ; 
+            }
+        }) ; 
+}
+
+function storeTaskInLocalStorage(task)
+{
+    let tasks ; 
+    if(localStorage.getItem('tasks') == null )
+    {
+        task = [] ; 
+    }
+    else 
+    {
+        tasks = JSON.parse(localStorage.getItem('tasks')) ; 
+    }
+    tasks.push(task) ; 
+    localStorage.setItem('tasks' , JSON.stringify(tasks)) ; 
+}
 
